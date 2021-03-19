@@ -38,6 +38,19 @@ function changeDirection(event) {
 document.addEventListener('keydown', changeDirection)
 
 function playGame() {
+    // If head hit body GAME OVER
+    for (let index = 1; index < snake.length; index++) {
+        let snakeBody = snake[index];
+        let snakeHead = snake[0]
+
+        if(snakeHead.x == snakeBody.x && snakeHead.y == snakeBody.y) {
+            clearInterval(game)
+            alert(`GAME OVER ='(
+                Recarregue a página para jogar novamente!`)
+        }
+        
+    }
+
     // Dinamica de tela infinita
     if(snake[0].x > 15*box && direction == "right") snake[0].x = 0
     if(snake[0].x < 0*box && direction == "left") snake[0].x = 16*box
@@ -73,12 +86,19 @@ function playGame() {
         x:snakeX,
         y:snakeY
     }
+    
 
     // Add snake in new position
     snake.unshift(newPosition)
-    // Delete snake in the last position
-    snake.pop()
 
+    if(snakeX != food.x || snakeY != food.y) {
+        // Delete snake in the last position
+    snake.pop()
+    } else {
+        // When snake eat food, create a new food
+        food.x = Math.floor(Math.random()*15+1)*box
+        food.y = Math.floor(Math.random()*15+1)*box
+    }
     
 }
 
